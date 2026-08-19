@@ -2,7 +2,16 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="theme-color"
+    content="#111111"
+>
 
 <title>Neo Morse</title>
 
@@ -13,23 +22,29 @@
 }
 
 :root {
-    --bg: #f4f4f5;
+    --bg: #f5f5f5;
     --card: #ffffff;
-    --text: #171717;
-    --muted: #777777;
+    --text: #151515;
+    --secondary: #737373;
     --border: #dddddd;
-    --accent: #171717;
+    --accent: #111111;
     --accent-text: #ffffff;
+    --danger: #c62828;
 }
 
 body.dark {
-    --bg: #111111;
-    --card: #1b1b1b;
+    --bg: #101010;
+    --card: #1a1a1a;
     --text: #f5f5f5;
-    --muted: #999999;
+    --secondary: #a0a0a0;
     --border: #333333;
-    --accent: #ffffff;
+    --accent: #f5f5f5;
     --accent-text: #111111;
+    --danger: #ef5350;
+}
+
+html {
+    background: var(--bg);
 }
 
 body {
@@ -43,24 +58,44 @@ body {
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
+        Roboto,
         Arial,
         sans-serif;
 
-    transition: background 0.2s, color 0.2s;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+button,
+select,
+textarea,
+input {
+    font: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
 }
 
 .app {
-    width: 92%;
-    max-width: 720px;
+    width: min(94%, 760px);
 
-    margin: auto;
-    padding: 28px 0 40px;
+    margin: 0 auto;
+
+    padding:
+        25px
+        0
+        45px;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 .header {
     display: flex;
+
     justify-content: space-between;
     align-items: center;
 
@@ -69,262 +104,396 @@ body {
 
 .logo {
     font-size: 30px;
-    font-weight: 700;
+    font-weight: 750;
+
     letter-spacing: -1px;
 }
 
 .subtitle {
     margin-top: 4px;
 
-    color: var(--muted);
+    color: var(--secondary);
 
-    font-size: 14px;
+    font-size: 13px;
 }
 
-.icon-button {
+.theme-button {
     width: 44px;
     height: 44px;
 
-    border-radius: 50%;
+    padding: 0;
 
     border: 1px solid var(--border);
+    border-radius: 50%;
 
     background: var(--card);
     color: var(--text);
-
-    font-size: 18px;
 
     cursor: pointer;
 }
 
-/* CARDS */
+/* =========================
+   CARD
+========================= */
 
 .card {
-    background: var(--card);
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
+    margin-bottom: 13px;
 
     padding: 18px;
 
-    margin-bottom: 13px;
+    background: var(--card);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 18px;
 }
 
 .label {
-    color: var(--muted);
+    margin-bottom: 9px;
 
-    font-size: 12px;
-    font-weight: 600;
+    color: var(--secondary);
 
-    letter-spacing: 0.6px;
+    font-size: 11px;
+    font-weight: 700;
 
-    margin-bottom: 10px;
+    letter-spacing: 0.8px;
 }
 
-/* SELECT */
+/* =========================
+   SELECT
+========================= */
 
 select {
     width: 100%;
 
-    padding: 13px 14px;
+    padding:
+        12px
+        13px;
+
+    border:
+        1px solid
+        var(--border);
 
     border-radius: 12px;
 
-    border: 1px solid var(--border);
+    outline: none;
 
     background: var(--card);
     color: var(--text);
 
-    font-size: 16px;
-
-    outline: none;
+    cursor: pointer;
 }
 
-/* MODE */
+/* =========================
+   MODE
+========================= */
 
 .mode {
-    display: flex;
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
     gap: 8px;
 }
 
 .mode button {
-    flex: 1;
+    min-height: 46px;
 }
 
-/* TEXTAREA */
+/* =========================
+   TEXTAREA
+========================= */
 
 textarea {
+    display: block;
+
     width: 100%;
 
-    min-height: 145px;
+    min-height: 150px;
+
+    padding: 0;
 
     resize: vertical;
 
     border: 0;
-    outline: none;
+    outline: 0;
 
     background: transparent;
     color: var(--text);
 
-    font-family: inherit;
-
     font-size: 18px;
-    line-height: 1.5;
+
+    line-height: 1.55;
 }
 
 textarea::placeholder {
-    color: var(--muted);
+    color: var(--secondary);
 }
 
-/* OUTPUT */
+/* =========================
+   OUTPUT
+========================= */
 
 .output {
-    min-height: 120px;
+    min-height: 130px;
 
-    font-size: 20px;
+    padding: 4px 0;
+
+    color: var(--text);
+
+    font-size: 21px;
 
     line-height: 1.7;
 
-    word-break: break-word;
+    white-space: pre-wrap;
+
+    overflow-wrap: anywhere;
 }
 
-/* BUTTONS */
+.output.empty {
+    color: var(--secondary);
 
-.controls {
+    font-size: 16px;
+}
+
+/* =========================
+   COUNTER
+========================= */
+
+.status-row {
     display: flex;
-    flex-wrap: wrap;
+
+    justify-content: space-between;
+
+    margin-top: 8px;
+
+    color: var(--secondary);
+
+    font-size: 12px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+    min-height: 44px;
+
+    padding:
+        10px
+        14px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 12px;
+
+    background: var(--card);
+    color: var(--text);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.08s ease,
+        opacity 0.15s ease,
+        background 0.15s ease;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+button:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+}
+
+.primary {
+    border-color: var(--accent);
+
+    background: var(--accent);
+    color: var(--accent-text);
+}
+
+.danger {
+    border-color: var(--danger);
+
+    background: var(--danger);
+    color: white;
+}
+
+.active {
+    border-color: var(--accent);
+
+    background: var(--accent);
+    color: var(--accent-text);
+}
+
+.main-controls {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
 
     gap: 9px;
 
     margin-top: 14px;
 }
 
-button {
-    border: 1px solid var(--border);
-
-    border-radius: 12px;
-
-    padding: 12px 15px;
-
-    background: var(--card);
-    color: var(--text);
-
-    font-size: 15px;
-
-    cursor: pointer;
-
-    transition: transform 0.1s, opacity 0.1s;
-}
-
-button:active {
-    transform: scale(0.96);
-}
-
-.primary {
-    background: var(--accent);
-    color: var(--accent-text);
-
-    border: 0;
-}
-
-.danger {
-    background: #b3261e;
-    color: white;
-
-    border: 0;
-}
-
-.active {
-    background: var(--accent);
-    color: var(--accent-text);
-
-    border-color: var(--accent);
-}
-
-/* TOOLS */
-
 .tools {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr
+        1fr;
 
     gap: 9px;
 }
 
-/* SETTINGS */
-
-.settings {
-    display: grid;
-
-    gap: 17px;
-}
+/* =========================
+   SETTINGS
+========================= */
 
 .setting {
-    display: grid;
-
-    gap: 8px;
+    margin-top: 17px;
 }
 
-.setting-row {
+.setting:first-child {
+    margin-top: 0;
+}
+
+.setting-top {
     display: flex;
 
     justify-content: space-between;
-    align-items: center;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
 }
 
-.value {
-    color: var(--muted);
+.setting-value {
+    color: var(--secondary);
+}
+
+input[type="range"] {
+    display: block;
+
+    width: 100%;
+
+    accent-color: var(--accent);
+}
+
+/* =========================
+   STATUS MESSAGE
+========================= */
+
+.message {
+    min-height: 18px;
+
+    margin-top: 12px;
+
+    color: var(--secondary);
 
     font-size: 13px;
 }
 
-input[type="range"] {
-    width: 100%;
+.message.success {
+    color: #2e7d32;
 }
 
-/* STATUS */
-
-.status {
-    margin-top: 8px;
-
-    color: var(--muted);
-
-    font-size: 12px;
+.message.error {
+    color: var(--danger);
 }
 
-/* FOOTER */
+/* =========================
+   MORSE GUIDE
+========================= */
+
+.guide {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 6px 20px;
+
+    max-height: 180px;
+
+    overflow-y: auto;
+
+    color: var(--secondary);
+
+    font-size: 13px;
+}
+
+.guide-item {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding:
+        5px
+        0;
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+.guide-code {
+    color: var(--text);
+
+    font-family:
+        "Courier New",
+        monospace;
+}
+
+/* =========================
+   FOOTER
+========================= */
 
 .footer {
+    padding-top: 12px;
+
     text-align: center;
 
-    color: var(--muted);
+    color: var(--secondary);
 
     font-size: 12px;
-
-    margin-top: 24px;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
-@media (max-width: 500px) {
+@media (max-width: 520px) {
 
     .app {
         width: 94%;
 
-        padding-top: 20px;
+        padding-top: 18px;
     }
 
     .logo {
         font-size: 27px;
     }
 
+    .main-controls,
     .tools {
         grid-template-columns: 1fr;
     }
 
-    button {
-        padding: 12px;
+    .guide {
+        grid-template-columns: 1fr;
     }
 
 }
@@ -339,7 +508,7 @@ input[type="range"] {
 
     <!-- HEADER -->
 
-    <div class="header">
+    <header class="header">
 
         <div>
 
@@ -348,38 +517,33 @@ input[type="range"] {
             </div>
 
             <div class="subtitle">
-                Универсальный переводчик азбуки Морзе
+                Переводчик и передатчик азбуки Морзе
             </div>
 
         </div>
 
         <button
-            class="icon-button"
-            onclick="toggleTheme()"
-            title="Сменить тему">
+            id="themeButton"
+            class="theme-button"
+            type="button"
+            title="Изменить тему">
 
             ◐
 
         </button>
 
-    </div>
+    </header>
 
 
     <!-- LANGUAGE -->
 
-    <div class="card">
+    <section class="card">
 
         <div class="label">
             ЯЗЫК
         </div>
 
-        <select
-            id="language"
-            onchange="translateText()">
-
-            <option value="international">
-                🌐 Международный
-            </option>
+        <select id="language">
 
             <option value="az">
                 🇦🇿 Азербайджанский
@@ -421,14 +585,18 @@ input[type="range"] {
                 🇺🇦 Украинский
             </option>
 
+            <option value="international">
+                🌐 Международный
+            </option>
+
         </select>
 
-    </div>
+    </section>
 
 
     <!-- MODE -->
 
-    <div class="card">
+    <section class="card">
 
         <div class="label">
             РЕЖИМ
@@ -437,17 +605,17 @@ input[type="range"] {
         <div class="mode">
 
             <button
-                id="textMode"
+                id="textToMorseButton"
                 class="active"
-                onclick="setMode('text')">
+                type="button">
 
                 Текст → Морзе
 
             </button>
 
             <button
-                id="morseMode"
-                onclick="setMode('morse')">
+                id="morseToTextButton"
+                type="button">
 
                 Морзе → текст
 
@@ -455,71 +623,83 @@ input[type="range"] {
 
         </div>
 
-    </div>
+    </section>
 
 
     <!-- INPUT -->
 
-    <div class="card">
+    <section class="card">
 
         <div
-            class="label"
-            id="inputLabel">
+            id="inputLabel"
+            class="label">
 
-            ВАШ ТЕКСТ
+            ТЕКСТ
 
         </div>
 
         <textarea
             id="input"
-            placeholder="Напишите сообщение..."
-            oninput="translateText()">
-        </textarea>
+            spellcheck="false"
+            autocomplete="off"
+            placeholder="Напишите сообщение..."></textarea>
 
-        <div class="status">
+        <div class="status-row">
 
-            <span id="counter">0</span>
-            символов
+            <span>
+                Символов:
+                <span id="counter">0</span>
+            </span>
+
+            <button
+                id="clearInputButton"
+                type="button">
+
+                Очистить
+
+            </button>
 
         </div>
 
-    </div>
+    </section>
 
 
     <!-- OUTPUT -->
 
-    <div class="card">
+    <section class="card">
 
         <div
-            class="label"
-            id="outputLabel">
+            id="outputLabel"
+            class="label">
 
-            АЗБУКА МОРЗЕ
+            РЕЗУЛЬТАТ
 
         </div>
 
         <div
             id="output"
-            class="output">
+            class="output empty">
 
             Здесь появится результат
 
         </div>
 
 
-        <div class="controls">
+        <div class="main-controls">
 
             <button
+                id="playButton"
                 class="primary"
-                onclick="playMorse()">
+                type="button">
 
                 ▶ Воспроизвести
 
             </button>
 
             <button
+                id="stopButton"
                 class="danger"
-                onclick="stopPlayback()">
+                type="button">
 
                 ■ Стоп
 
@@ -527,164 +707,189 @@ input[type="range"] {
 
         </div>
 
-    </div>
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+    </section>
 
 
     <!-- TOOLS -->
 
-    <div class="card">
+    <section class="card">
 
         <div class="label">
-            ИНСТРУМЕНТЫ
+            ПЕРЕДАЧА И ИНСТРУМЕНТЫ
         </div>
 
         <div class="tools">
 
-            <button onclick="copyResult()">
+            <button
+                id="copyButton"
+                type="button">
+
                 Копировать
+
             </button>
 
-            <button onclick="clearAll()">
-                Очистить
+            <button
+                id="vibrateButton"
+                type="button">
+
+                Вибрация
+
             </button>
 
-            <button onclick="vibrateMorse()">
-                ▪ Вибрация
+            <button
+                id="flashButton"
+                type="button">
+
+                Фонарик
+
             </button>
 
-            <button onclick="playFlashlight()">
-                ◉ Фонарик
+            <button
+                id="clearButton"
+                type="button">
+
+                Сбросить всё
+
             </button>
 
         </div>
 
-    </div>
+    </section>
 
 
     <!-- SETTINGS -->
 
-    <div class="card">
+    <section class="card">
 
         <div class="label">
             НАСТРОЙКИ СИГНАЛА
         </div>
 
-        <div class="settings">
 
+        <div class="setting">
 
-            <div class="setting">
+            <div class="setting-top">
 
-                <div class="setting-row">
+                <span>
+                    Скорость
+                </span>
 
-                    <span>
-                        Скорость
-                    </span>
+                <span
+                    id="speedValue"
+                    class="setting-value">
 
-                    <span
-                        class="value"
-                        id="speedValue">
+                    15 WPM
 
-                        15 WPM
-
-                    </span>
-
-                </div>
-
-                <input
-                    id="speed"
-                    type="range"
-                    min="5"
-                    max="30"
-                    value="15"
-                    oninput="updateSettings()">
+                </span>
 
             </div>
 
-
-            <div class="setting">
-
-                <div class="setting-row">
-
-                    <span>
-                        Частота
-                    </span>
-
-                    <span
-                        class="value"
-                        id="frequencyValue">
-
-                        700 Hz
-
-                    </span>
-
-                </div>
-
-                <input
-                    id="frequency"
-                    type="range"
-                    min="300"
-                    max="1200"
-                    value="700"
-                    oninput="updateSettings()">
-
-            </div>
-
+            <input
+                id="speed"
+                type="range"
+                min="5"
+                max="35"
+                value="15">
 
         </div>
 
-    </div>
+
+        <div class="setting">
+
+            <div class="setting-top">
+
+                <span>
+                    Частота
+                </span>
+
+                <span
+                    id="frequencyValue"
+                    class="setting-value">
+
+                    700 Hz
+
+                </span>
+
+            </div>
+
+            <input
+                id="frequency"
+                type="range"
+                min="300"
+                max="1200"
+                value="700">
+
+        </div>
+
+    </section>
 
 
-    <div class="footer">
+    <!-- GUIDE -->
+
+    <section class="card">
+
+        <div class="label">
+            ТАБЛИЦА МОРЗЕ
+        </div>
+
+        <div
+            id="guide"
+            class="guide">
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
 
         Neo Morse · работает локально
 
-    </div>
+    </footer>
 
 </div>
 
 
 <script>
 
+/* =====================================================
+   MORSE TABLES
+===================================================== */
 
-/*
-==================================================
-АЗБУКА МОРЗЕ
-==================================================
-*/
-
-
-const alphabets = {
-
+const MORSE = {
 
     international: {
-
-        "A": ".-",
-        "B": "-...",
-        "C": "-.-.",
-        "D": "-..",
-        "E": ".",
-        "F": "..-.",
-        "G": "--.",
-        "H": "....",
-        "I": "..",
-        "J": ".---",
-        "K": "-.-",
-        "L": ".-..",
-        "M": "--",
-        "N": "-.",
-        "O": "---",
-        "P": ".--.",
-        "Q": "--.-",
-        "R": ".-.",
-        "S": "...",
-        "T": "-",
-        "U": "..-",
-        "V": "...-",
-        "W": ".--",
-        "X": "-..-",
-        "Y": "-.--",
-        "Z": "--..",
+        A: ".-",
+        B: "-...",
+        C: "-.-.",
+        D: "-..",
+        E: ".",
+        F: "..-.",
+        G: "--.",
+        H: "....",
+        I: "..",
+        J: ".---",
+        K: "-.-",
+        L: ".-..",
+        M: "--",
+        N: "-.",
+        O: "---",
+        P: ".--.",
+        Q: "--.-",
+        R: ".-.",
+        S: "...",
+        T: "-",
+        U: "..-",
+        V: "...-",
+        W: ".--",
+        X: "-..-",
+        Y: "-.--",
+        Z: "--..",
 
         "0": "-----",
         "1": ".----",
@@ -696,45 +901,43 @@ const alphabets = {
         "7": "--...",
         "8": "---..",
         "9": "----."
-
     },
 
 
     ru: {
-
-        "А": ".-",
-        "Б": "-...",
-        "В": ".--",
-        "Г": "--.",
-        "Д": "-..",
-        "Е": ".",
-        "Ё": ".",
-        "Ж": "...-",
-        "З": "--..",
-        "И": "..",
-        "Й": ".---",
-        "К": "-.-",
-        "Л": ".-..",
-        "М": "--",
-        "Н": "-.",
-        "О": "---",
-        "П": ".--.",
-        "Р": ".-.",
-        "С": "...",
-        "Т": "-",
-        "У": "..-",
-        "Ф": "..-.",
-        "Х": "....",
-        "Ц": "-.-.",
-        "Ч": "---.",
-        "Ш": "----",
-        "Щ": "--.-",
-        "Ъ": "--.--",
-        "Ы": "-.--",
-        "Ь": "-..-",
-        "Э": "..-..",
-        "Ю": "..--",
-        "Я": ".-.-",
+        А: ".-",
+        Б: "-...",
+        В: ".--",
+        Г: "--.",
+        Д: "-..",
+        Е: ".",
+        Ё: ".",
+        Ж: "...-",
+        З: "--..",
+        И: "..",
+        Й: ".---",
+        К: "-.-",
+        Л: ".-..",
+        М: "--",
+        Н: "-.",
+        О: "---",
+        П: ".--.",
+        Р: ".-.",
+        С: "...",
+        Т: "-",
+        У: "..-",
+        Ф: "..-.",
+        Х: "....",
+        Ц: "-.-.",
+        Ч: "---.",
+        Ш: "----",
+        Щ: "--.-",
+        Ъ: "--.--",
+        Ы: "-.--",
+        Ь: "-..-",
+        Э: "..-..",
+        Ю: "..--",
+        Я: ".-.-",
 
         "0": "-----",
         "1": ".----",
@@ -746,44 +949,42 @@ const alphabets = {
         "7": "--...",
         "8": "---..",
         "9": "----."
-
     },
 
 
     az: {
-
-        "A": ".-",
-        "B": "-...",
-        "C": "-.-.",
-        "Ç": "-.-.",
-        "D": "-..",
-        "E": ".",
-        "Ə": ".-..-",
-        "F": "..-.",
-        "G": "--.",
-        "Ğ": "--.",
-        "H": "....",
-        "X": "....",
-        "I": "..",
-        "İ": "..",
-        "J": ".---",
-        "K": "-.-",
-        "Q": "--.-",
-        "L": ".-..",
-        "M": "--",
-        "N": "-.",
-        "O": "---",
-        "Ö": "---.",
-        "P": ".--.",
-        "R": ".-.",
-        "S": "...",
-        "Ş": "...-",
-        "T": "-",
-        "U": "..-",
-        "Ü": "..--",
-        "V": "...-",
-        "Y": "-.--",
-        "Z": "--..",
+        A: ".-",
+        B: "-...",
+        C: "-.-.",
+        Ç: "-.-.",
+        D: "-..",
+        E: ".",
+        Ə: ".-..-",
+        F: "..-.",
+        G: "--.",
+        Ğ: "--.",
+        H: "....",
+        X: "....",
+        I: "..",
+        İ: "..",
+        J: ".---",
+        K: "-.-",
+        Q: "--.-",
+        L: ".-..",
+        M: "--",
+        N: "-.",
+        O: "---",
+        Ö: "---.",
+        P: ".--.",
+        R: ".-.",
+        S: "...",
+        Ş: "...-",
+        T: "-",
+        U: "..-",
+        Ü: "..--",
+        V: "...-",
+        Y: "-.--",
+        Z: "--..",
 
         "0": "-----",
         "1": ".----",
@@ -795,43 +996,41 @@ const alphabets = {
         "7": "--...",
         "8": "---..",
         "9": "----."
-
     },
 
 
     de: {
+        A: ".-",
+        B: "-...",
+        C: "-.-.",
+        D: "-..",
+        E: ".",
+        F: "..-.",
+        G: "--.",
+        H: "....",
+        I: "..",
+        J: ".---",
+        K: "-.-",
+        L: ".-..",
+        M: "--",
+        N: "-.",
+        O: "---",
+        P: ".--.",
+        Q: "--.-",
+        R: ".-.",
+        S: "...",
+        T: "-",
+        U: "..-",
+        V: "...-",
+        W: ".--",
+        X: "-..-",
+        Y: "-.--",
+        Z: "--..",
 
-        "A": ".-",
-        "B": "-...",
-        "C": "-.-.",
-        "D": "-..",
-        "E": ".",
-        "F": "..-.",
-        "G": "--.",
-        "H": "....",
-        "I": "..",
-        "J": ".---",
-        "K": "-.-",
-        "L": ".-..",
-        "M": "--",
-        "N": "-.",
-        "O": "---",
-        "P": ".--.",
-        "Q": "--.-",
-        "R": ".-.",
-        "S": "...",
-        "T": "-",
-        "U": "..-",
-        "V": "...-",
-        "W": ".--",
-        "X": "-..-",
-        "Y": "-.--",
-        "Z": "--..",
-
-        "Ä": ".-.-",
-        "Ö": "---.",
-        "Ü": "..--",
-        "ß": "...--..",
+        Ä: ".-.-",
+        Ö: "---.",
+        Ü: "..--",
+        ß: "...--..",
 
         "0": "-----",
         "1": ".----",
@@ -843,43 +1042,44 @@ const alphabets = {
         "7": "--...",
         "8": "---..",
         "9": "----."
-
     },
 
 
     fr: {
+        A: ".-",
+        B: "-...",
+        C: "-.-.",
+        D: "-..",
+        E: ".",
+        F: "..-.",
+        G: "--.",
+        H: "....",
+        I: "..",
+        J: ".---",
+        K: "-.-",
+        L: ".-..",
+        M: "--",
+        N: "-.",
+        O: "---",
+        P: ".--.",
+        Q: "--.-",
+        R: ".-.",
+        S: "...",
+        T: "-",
+        U: "..-",
+        V: "...-",
+        W: ".--",
+        X: "-..-",
+        Y: "-.--",
+        Z: "--..",
 
-        "A": ".-",
-        "B": "-...",
-        "C": "-.-.",
-        "D": "-..",
-        "E": ".",
-        "F": "..-.",
-        "G": "--.",
-        "H": "....",
-        "I": "..",
-        "J": ".---",
-        "K": "-.-",
-        "L": ".-..",
-        "M": "--",
-        "N": "-.",
-        "O": "---",
-        "P": ".--.",
-        "Q": "--.-",
-        "R": ".-.",
-        "S": "...",
-        "T": "-",
-        "U": "..-",
-        "V": "...-",
-        "W": ".--",
-        "X": "-..-",
-        "Y": "-.--",
-        "Z": "--..",
-
-        "É": "..-..",
-        "À": ".--.-",
-        "È": ".-..-",
-        "Ç": "-.-..",
+        À: ".--.-",
+        Â: ".-.-",
+        Ç: "-.-..",
+        È: ".-..-",
+        É: "..-..",
+        Ê: "..-..",
+        Ô: "---.",
 
         "0": "-----",
         "1": ".----",
@@ -891,40 +1091,37 @@ const alphabets = {
         "7": "--...",
         "8": "---..",
         "9": "----."
-
     },
 
 
     es: {
-
-        "A": ".-",
-        "B": "-...",
-        "C": "-.-.",
-        "D": "-..",
-        "E": ".",
-        "F": "..-.",
-        "G": "--.",
-        "H": "....",
-        "I": "..",
-        "J": ".---",
-        "K": "-.-",
-        "L": ".-..",
-        "M": "--",
-        "N": "-.",
-        "O": "---",
-        "P": ".--.",
-        "Q": "--.-",
-        "R": ".-.",
-        "S": "...",
-        "T": "-",
-        "U": "..-",
-        "V": "...-",
-        "W": ".--",
-        "X": "-..-",
-        "Y": "-.--",
-        "Z": "--..",
-
-        "Ñ": "--.--",
+        A: ".-",
+        B: "-...",
+        C: "-.-.",
+        D: "-..",
+        E: ".",
+        F: "..-.",
+        G: "--.",
+        H: "....",
+        I: "..",
+        J: ".---",
+        K: "-.-",
+        L: ".-..",
+        M: "--",
+        N: "-.",
+        O: "---",
+        P: ".--.",
+        Q: "--.-",
+        R: ".-.",
+        S: "...",
+        T: "-",
+        U: "..-",
+        V: "...-",
+        W: ".--",
+        X: "-..-",
+        Y: "-.--",
+        Z: "--..",
+        Ñ: "--.--",
 
         "0": "-----",
         "1": ".----",
@@ -936,41 +1133,43 @@ const alphabets = {
         "7": "--...",
         "8": "---..",
         "9": "----."
-
     },
 
 
     it: {
+        A: ".-",
+        B: "-...",
+        C: "-.-.",
+        D: "-..",
+        E: ".",
+        F: "..-.",
+        G: "--.",
+        H: "....",
+        I: "..",
+        J: ".---",
+        K: "-.-",
+        L: ".-..",
+        M: "--",
+        N: "-.",
+        O: "---",
+        P: ".--.",
+        Q: "--.-",
+        R: ".-.",
+        S: "...",
+        T: "-",
+        U: "..-",
+        V: "...-",
+        W: ".--",
+        X: "-..-",
+        Y: "-.--",
+        Z: "--..",
 
-        "A": ".-",
-        "B": "-...",
-        "C": "-.-.",
-        "D": "-..",
-        "E": ".",
-        "F": "..-.",
-        "G": "--.",
-        "H": "....",
-        "I": "..",
-        "J": ".---",
-        "K": "-.-",
-        "L": ".-..",
-        "M": "--",
-        "N": "-.",
-        "O": "---",
-        "P": ".--.",
-        "Q": "--.-",
-        "R": ".-.",
-        "S": "...",
-        "T": "-",
-        "U": "..-",
-        "V": "...-",
-        "W": ".--",
-        "X": "-..-",
-        "Y": "-.--",
-        "Z": "--..",
-
-        "È": ".-..-",
-        "É": "..-..",
+        À: ".--.-",
+        È: ".-..-",
+        É: "..-..",
+        Ì: "..",
+        Ò: "---.",
+        Ù: "..--",
 
         "0": "-----",
         "1": ".----",
@@ -982,44 +1181,46 @@ const alphabets = {
         "7": "--...",
         "8": "---..",
         "9": "----."
-
     },
 
 
     pt: {
+        A: ".-",
+        B: "-...",
+        C: "-.-.",
+        D: "-..",
+        E: ".",
+        F: "..-.",
+        G: "--.",
+        H: "....",
+        I: "..",
+        J: ".---",
+        K: "-.-",
+        L: ".-..",
+        M: "--",
+        N: "-.",
+        O: "---",
+        P: ".--.",
+        Q: "--.-",
+        R: ".-.",
+        S: "...",
+        T: "-",
+        U: "..-",
+        V: "...-",
+        W: ".--",
+        X: "-..-",
+        Y: "-.--",
+        Z: "--..",
 
-        "A": ".-",
-        "B": "-...",
-        "C": "-.-.",
-        "D": "-..",
-        "E": ".",
-        "F": "..-.",
-        "G": "--.",
-        "H": "....",
-        "I": "..",
-        "J": ".---",
-        "K": "-.-",
-        "L": ".-..",
-        "M": "--",
-        "N": "-.",
-        "O": "---",
-        "P": ".--.",
-        "Q": "--.-",
-        "R": ".-.",
-        "S": "...",
-        "T": "-",
-        "U": "..-",
-        "V": "...-",
-        "W": ".--",
-        "X": "-..-",
-        "Y": "-.--",
-        "Z": "--..",
-
-        "Á": ".--.-",
-        "Ã": ".--.-",
-        "Ç": "-.-..",
-        "É": "..-..",
-        "Ó": "---.",
+        Á: ".--.-",
+        Â: ".-.-",
+        Ã: ".--.-",
+        Ç: "-.-..",
+        É: "..-..",
+        Ê: "..-..",
+        Ó: "---.",
+        Ô: "---.",
+        Õ: "---.",
 
         "0": "-----",
         "1": ".----",
@@ -1031,41 +1232,39 @@ const alphabets = {
         "7": "--...",
         "8": "---..",
         "9": "----."
-
     },
 
 
     tr: {
-
-        "A": ".-",
-        "B": "-...",
-        "C": "-.-.",
-        "Ç": "-.-.",
-        "D": "-..",
-        "E": ".",
-        "F": "..-.",
-        "G": "--.",
-        "Ğ": "--.",
-        "H": "....",
-        "I": "..",
-        "İ": "..",
-        "J": ".---",
-        "K": "-.-",
-        "L": ".-..",
-        "M": "--",
-        "N": "-.",
-        "O": "---",
-        "Ö": "---.",
-        "P": ".--.",
-        "R": ".-.",
-        "S": "...",
-        "Ş": "...-",
-        "T": "-",
-        "U": "..-",
-        "Ü": "..--",
-        "V": "...-",
-        "Y": "-.--",
-        "Z": "--..",
+        A: ".-",
+        B: "-...",
+        C: "-.-.",
+        Ç: "-.-.",
+        D: "-..",
+        E: ".",
+        F: "..-.",
+        G: "--.",
+        Ğ: "--.",
+        H: "....",
+        I: "..",
+        İ: "..",
+        J: ".---",
+        K: "-.-",
+        L: ".-..",
+        M: "--",
+        N: "-.",
+        O: "---",
+        Ö: "---.",
+        P: ".--.",
+        R: ".-.",
+        S: "...",
+        Ş: "...-",
+        T: "-",
+        U: "..-",
+        Ü: "..--",
+        V: "...-",
+        Y: "-.--",
+        Z: "--..",
 
         "0": "-----",
         "1": ".----",
@@ -1077,180 +1276,31 @@ const alphabets = {
         "7": "--...",
         "8": "---..",
         "9": "----."
-
     },
 
 
     uk: {
-
-        "А": ".-",
-        "Б": "-...",
-        "В": ".--",
-        "Г": "--.",
-        "Ґ": "--.",
-        "Д": "-..",
-        "Е": ".",
-        "Є": "..-..",
-        "Ж": "...-",
-        "З": "--..",
-        "И": "..",
-        "І": "..",
-        "Ї": ".---.",
-        "Й": ".---",
-        "К": "-.-",
-        "Л": ".-..",
-        "М": "--",
-        "Н": "-.",
-        "О": "---",
-        "П": ".--.",
-        "Р": ".-.",
-        "С": "...",
-        "Т": "-",
-        "У": "..-",
-        "Ф": "..-.",
-        "Х": "....",
-        "Ц": "-.-.",
-        "Ч": "---.",
-        "Ш": "----",
-        "Щ": "--.-",
-        "Ь": "-..-",
-        "Ю": "..--",
-        "Я": ".-.-",
-
-        "0": "-----",
-        "1": ".----",
-        "2": "..---",
-        "3": "...--",
-        "4": "....-",
-        "5": ".....",
-        "6": "-....",
-        "7": "--...",
-        "8": "---..",
-        "9": "----."
-
-    }
-
-};
-
-
-/*
-==================================================
-СОЗДАНИЕ ОБРАТНЫХ ТАБЛИЦ
-==================================================
-*/
-
-let reverseAlphabets = {};
-
-for (const language in alphabets) {
-
-    reverseAlphabets[language] = {};
-
-    for (const character in alphabets[language]) {
-
-        const code =
-            alphabets[language][character];
-
-        reverseAlphabets[language][code] =
-            character;
-
-    }
-
-}
-
-
-/*
-==================================================
-ПЕРЕМЕННЫЕ
-==================================================
-*/
-
-let currentMode = "text";
-
-let audioContext = null;
-
-let oscillator = null;
-
-let gainNode = null;
-
-let playing = false;
-
-let playbackTimer = null;
-
-
-/*
-==================================================
-РЕЖИМ
-==================================================
-*/
-
-function setMode(mode) {
-
-    currentMode = mode;
-
-    document
-        .getElementById("textMode")
-        .classList
-        .toggle(
-            "active",
-            mode === "text"
-        );
-
-    document
-        .getElementById("morseMode")
-        .classList
-        .toggle(
-            "active",
-            mode === "morse"
-        );
-
-
-    if (mode === "text") {
-
-        document
-            .getElementById("inputLabel")
-            .textContent =
-            "ВАШ ТЕКСТ";
-
-        document
-            .getElementById("outputLabel")
-            .textContent =
-            "АЗБУКА МОРЗЕ";
-
-        document
-            .getElementById("input")
-            .placeholder =
-            "Напишите сообщение...";
-
-    } else {
-
-        document
-            .getElementById("inputLabel")
-            .textContent =
-            "АЗБУКА МОРЗЕ";
-
-        document
-            .getElementById("outputLabel")
-            .textContent =
-            "ТЕКСТ";
-
-        document
-            .getElementById("input")
-            .placeholder =
-            "Например: .... . .-.. .-.. ---";
-
-    }
-
-
-    translateText();
-
-}
-
-
-/*
-==================================================
-ПЕРЕВОД
-==================================================
-*/
-
-function translateText() {
-    
+        А: ".-",
+        Б: "-...",
+        В: ".--",
+        Г: "--.",
+        Ґ: "--.",
+        Д: "-..",
+        Е: ".",
+        Є: "..-..",
+        Ж: "...-",
+        З: "--..",
+        И: "..",
+        І: "..",
+        Ї: ".---.",
+        Й: ".---",
+        К: "-.-",
+        Л: ".-..",
+        М: "--",
+        Н: "-.",
+        О: "---",
+        П: ".--.",
+        Р: ".-.",
+        С: "...",
+        Т: "-",
+        
