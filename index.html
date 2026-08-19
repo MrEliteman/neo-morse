@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Neo Morse</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #171717;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 100vh;
+        }
+
+        .app {
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 130px;
+
+            resize: vertical;
+
+            border: 1px solid #ddd;
+            border-radius: 14px;
+
+            padding: 15px;
+
+            font-size: 17px;
+
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #999;
+        }
+
+        .morse {
+            margin-top: 15px;
+
+            background: white;
+
+            border: 1px solid #ddd;
+            border-radius: 14px;
+
+            padding: 15px;
+
+            min-height: 100px;
+
+            font-size: 20px;
+            line-height: 1.6;
+
+            word-break: break-word;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+
+            margin-top: 15px;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+
+            padding: 13px 18px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        .primary {
+            background: #171717;
+            color: white;
+        }
+
+        .secondary {
+            background: #e5e5e5;
+            color: #171717;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <h1>Neo Morse</h1>
+
+    <div class="subtitle">
+        Простой переводчик в азбуку Морзе
+    </div>
+
+    <textarea
+        id="input"
+        placeholder="Напиши текст..."
+    ></textarea>
+
+    <div class="buttons">
+
+        <button class="primary" onclick="translateToMorse()">
+            Перевести
+        </button>
+
+        <button class="secondary" onclick="playMorse()">
+            ▶ Воспроизвести
+        </button>
+
+    </div>
+
+    <div class="morse" id="output">
+        Здесь появится азбука Морзе
+    </div>
+
+</div>
+
+
+<script>
+
+const morse = {
+
+    "А": ".-",
+    "Б": "-...",
+    "В": ".--",
+    "Г": "--.",
+    "Д": "-..",
+    "Е": ".",
+    "Ё": ".",
+    "Ж": "...-",
+    "З": "--..",
+    "И": "..",
+    "Й": ".---",
+    "К": "-.-",
+    "Л": ".-..",
+    "М": "--",
+    "Н": "-.",
+    "О": "---",
+    "П": ".--.",
+    "Р": ".-.",
+    "С": "...",
+    "Т": "-",
+    "У": "..-",
+    "Ф": "..-.",
+    "Х": "....",
+    "Ц": "-.-.",
+    "Ч": "---.",
+    "Ш": "----",
+    "Щ": "--.-",
+    "Ъ": "--.--",
+    "Ы": "-.--",
+    "Ь": "-..-",
+    "Э": "..-..",
+    "Ю": "..--",
+    "Я": ".-.-",
+
+    "0": "-----",
+    "1": ".----",
+    "2": "..---",
+    "3": "...--",
+    "4": "....-",
+    "5": ".....",
+    "6": "-....",
+    "7": "--...",
+    "8": "---..",
+    "9": "----."
+
+};
+
+
+function translateToMorse() {
+
+    const text =
+        document.getElementById("input").value
+        .toUpperCase();
+
+    let result = "";
+
+    for (const character of text) {
+
+        if (character === " ") {
+
+            result += " / ";
+
+        } else if (morse[character]) {
+
+            result += morse[character] + " ";
+
+        } else {
+
+            result += character + " ";
+
+        }
+    }
+
+    document.getElementById("output").textContent =
+        result.trim();
+}
+
+
+function playMorse() {
+
+    const text =
+        document.getElementById("output").textContent;
+
+    if (!text || text === "Здесь появится азбука Морзе") {
+        return;
+    }
+
+    let index = 0;
+
+    function nextSignal() {
+
+        if (index >= text.length) {
+            return;
+        }
+
+        const symbol = text[index];
+
+        index++;
+
+        if (symbol === ".") {
+
+            beep(150);
+
+        } else if (symbol === "-") {
+
+            beep(450);
+
+        } else {
+
+            setTimeout(nextSignal, 150);
+            return;
+        }
+
+        setTimeout(nextSignal, 200);
+    }
+
+    nextSignal();
+}
+
+
+function beep(duration) {
+
+    const audio =
+        new AudioContext();
+
+    const oscillator =
+        audio.createOscillator();
+
+    const gain =
+        audio.createGain();
+
+    oscillator.frequency.value = 700;
+
+    oscillator.connect(gain);
+    gain.connect(audio.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+        audio.currentTime + duration / 1000
+    );
+}
+
+</script>
+
+</body>
+</html>
