@@ -1,145 +1,644 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Neo Morse</title>
+<title>Neo Morse</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            color: #171717;
+* {
+    box-sizing: border-box;
+}
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+:root {
+    --bg: #f4f4f5;
+    --card: #ffffff;
+    --text: #171717;
+    --muted: #777777;
+    --border: #dddddd;
+    --accent: #171717;
+    --accent-text: #ffffff;
+}
 
-            min-height: 100vh;
-        }
+body.dark {
+    --bg: #111111;
+    --card: #1b1b1b;
+    --text: #f5f5f5;
+    --muted: #999999;
+    --border: #333333;
+    --accent: #ffffff;
+    --accent-text: #111111;
+}
 
-        .app {
-            width: 90%;
-            max-width: 600px;
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
 
-        h1 {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
+    background: var(--bg);
+    color: var(--text);
 
-        .subtitle {
-            color: #777;
-            margin-bottom: 25px;
-        }
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
 
-        textarea {
-            width: 100%;
-            min-height: 130px;
+    transition: background 0.2s, color 0.2s;
+}
 
-            resize: vertical;
+.app {
+    width: 92%;
+    max-width: 720px;
 
-            border: 1px solid #ddd;
-            border-radius: 14px;
+    margin: auto;
+    padding: 28px 0 40px;
+}
 
-            padding: 15px;
+/* HEADER */
 
-            font-size: 17px;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-            outline: none;
-        }
+    margin-bottom: 22px;
+}
 
-        textarea:focus {
-            border-color: #999;
-        }
+.logo {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
 
-        .morse {
-            margin-top: 15px;
+.subtitle {
+    margin-top: 4px;
 
-            background: white;
+    color: var(--muted);
 
-            border: 1px solid #ddd;
-            border-radius: 14px;
+    font-size: 14px;
+}
 
-            padding: 15px;
+.icon-button {
+    width: 44px;
+    height: 44px;
 
-            min-height: 100px;
+    border-radius: 50%;
 
-            font-size: 20px;
-            line-height: 1.6;
+    border: 1px solid var(--border);
 
-            word-break: break-word;
-        }
+    background: var(--card);
+    color: var(--text);
 
-        .buttons {
-            display: flex;
-            gap: 10px;
+    font-size: 18px;
 
-            margin-top: 15px;
-        }
+    cursor: pointer;
+}
 
-        button {
-            border: none;
-            border-radius: 12px;
+/* CARDS */
 
-            padding: 13px 18px;
+.card {
+    background: var(--card);
 
-            font-size: 16px;
+    border: 1px solid var(--border);
 
-            cursor: pointer;
-        }
+    border-radius: 18px;
 
-        .primary {
-            background: #171717;
-            color: white;
-        }
+    padding: 18px;
 
-        .secondary {
-            background: #e5e5e5;
-            color: #171717;
-        }
+    margin-bottom: 13px;
+}
 
-        button:active {
-            transform: scale(0.98);
-        }
-    </style>
+.label {
+    color: var(--muted);
+
+    font-size: 12px;
+    font-weight: 600;
+
+    letter-spacing: 0.6px;
+
+    margin-bottom: 10px;
+}
+
+/* SELECT */
+
+select {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border-radius: 12px;
+
+    border: 1px solid var(--border);
+
+    background: var(--card);
+    color: var(--text);
+
+    font-size: 16px;
+
+    outline: none;
+}
+
+/* MODE */
+
+.mode {
+    display: flex;
+    gap: 8px;
+}
+
+.mode button {
+    flex: 1;
+}
+
+/* TEXTAREA */
+
+textarea {
+    width: 100%;
+
+    min-height: 145px;
+
+    resize: vertical;
+
+    border: 0;
+    outline: none;
+
+    background: transparent;
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+textarea::placeholder {
+    color: var(--muted);
+}
+
+/* OUTPUT */
+
+.output {
+    min-height: 120px;
+
+    font-size: 20px;
+
+    line-height: 1.7;
+
+    word-break: break-word;
+}
+
+/* BUTTONS */
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-top: 14px;
+}
+
+button {
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 12px 15px;
+
+    background: var(--card);
+    color: var(--text);
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: transform 0.1s, opacity 0.1s;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+.primary {
+    background: var(--accent);
+    color: var(--accent-text);
+
+    border: 0;
+}
+
+.danger {
+    background: #b3261e;
+    color: white;
+
+    border: 0;
+}
+
+.active {
+    background: var(--accent);
+    color: var(--accent-text);
+
+    border-color: var(--accent);
+}
+
+/* TOOLS */
+
+.tools {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 9px;
+}
+
+/* SETTINGS */
+
+.settings {
+    display: grid;
+
+    gap: 17px;
+}
+
+.setting {
+    display: grid;
+
+    gap: 8px;
+}
+
+.setting-row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.value {
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+/* STATUS */
+
+.status {
+    margin-top: 8px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    margin-top: 24px;
+}
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
+    .app {
+        width: 94%;
+
+        padding-top: 20px;
+    }
+
+    .logo {
+        font-size: 27px;
+    }
+
+    .tools {
+        grid-template-columns: 1fr;
+    }
+
+    button {
+        padding: 12px;
+    }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-    <h1>Neo Morse</h1>
+    <!-- HEADER -->
 
-    <div class="subtitle">
-        Простой переводчик в азбуку Морзе
-    </div>
+    <div class="header">
 
-    <textarea
-        id="input"
-        placeholder="Напиши текст..."
-    ></textarea>
+        <div>
 
-    <div class="buttons">
+            <div class="logo">
+                Neo Morse
+            </div>
 
-        <button class="primary" onclick="translateToMorse()">
-            Перевести
+            <div class="subtitle">
+                Универсальный переводчик азбуки Морзе
+            </div>
+
+        </div>
+
+        <button
+            class="icon-button"
+            onclick="toggleTheme()"
+            title="Сменить тему">
+
+            ◐
+
         </button>
 
-        <button class="secondary" onclick="playMorse()">
-            ▶ Воспроизвести
-        </button>
+    </div>
+
+
+    <!-- LANGUAGE -->
+
+    <div class="card">
+
+        <div class="label">
+            ЯЗЫК
+        </div>
+
+        <select
+            id="language"
+            onchange="translateText()">
+
+            <option value="international">
+                🌐 Международный
+            </option>
+
+            <option value="az">
+                🇦🇿 Азербайджанский
+            </option>
+
+            <option value="ru">
+                🇷🇺 Русский
+            </option>
+
+            <option value="en">
+                🇬🇧 Английский
+            </option>
+
+            <option value="de">
+                🇩🇪 Немецкий
+            </option>
+
+            <option value="fr">
+                🇫🇷 Французский
+            </option>
+
+            <option value="es">
+                🇪🇸 Испанский
+            </option>
+
+            <option value="it">
+                🇮🇹 Итальянский
+            </option>
+
+            <option value="pt">
+                🇵🇹 Португальский
+            </option>
+
+            <option value="tr">
+                🇹🇷 Турецкий
+            </option>
+
+            <option value="uk">
+                🇺🇦 Украинский
+            </option>
+
+        </select>
 
     </div>
 
-    <div class="morse" id="output">
-        Здесь появится азбука Морзе
+
+    <!-- MODE -->
+
+    <div class="card">
+
+        <div class="label">
+            РЕЖИМ
+        </div>
+
+        <div class="mode">
+
+            <button
+                id="textMode"
+                class="active"
+                onclick="setMode('text')">
+
+                Текст → Морзе
+
+            </button>
+
+            <button
+                id="morseMode"
+                onclick="setMode('morse')">
+
+                Морзе → текст
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- INPUT -->
+
+    <div class="card">
+
+        <div
+            class="label"
+            id="inputLabel">
+
+            ВАШ ТЕКСТ
+
+        </div>
+
+        <textarea
+            id="input"
+            placeholder="Напишите сообщение..."
+            oninput="translateText()">
+        </textarea>
+
+        <div class="status">
+
+            <span id="counter">0</span>
+            символов
+
+        </div>
+
+    </div>
+
+
+    <!-- OUTPUT -->
+
+    <div class="card">
+
+        <div
+            class="label"
+            id="outputLabel">
+
+            АЗБУКА МОРЗЕ
+
+        </div>
+
+        <div
+            id="output"
+            class="output">
+
+            Здесь появится результат
+
+        </div>
+
+
+        <div class="controls">
+
+            <button
+                class="primary"
+                onclick="playMorse()">
+
+                ▶ Воспроизвести
+
+            </button>
+
+            <button
+                class="danger"
+                onclick="stopPlayback()">
+
+                ■ Стоп
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOOLS -->
+
+    <div class="card">
+
+        <div class="label">
+            ИНСТРУМЕНТЫ
+        </div>
+
+        <div class="tools">
+
+            <button onclick="copyResult()">
+                Копировать
+            </button>
+
+            <button onclick="clearAll()">
+                Очистить
+            </button>
+
+            <button onclick="vibrateMorse()">
+                ▪ Вибрация
+            </button>
+
+            <button onclick="playFlashlight()">
+                ◉ Фонарик
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SETTINGS -->
+
+    <div class="card">
+
+        <div class="label">
+            НАСТРОЙКИ СИГНАЛА
+        </div>
+
+        <div class="settings">
+
+
+            <div class="setting">
+
+                <div class="setting-row">
+
+                    <span>
+                        Скорость
+                    </span>
+
+                    <span
+                        class="value"
+                        id="speedValue">
+
+                        15 WPM
+
+                    </span>
+
+                </div>
+
+                <input
+                    id="speed"
+                    type="range"
+                    min="5"
+                    max="30"
+                    value="15"
+                    oninput="updateSettings()">
+
+            </div>
+
+
+            <div class="setting">
+
+                <div class="setting-row">
+
+                    <span>
+                        Частота
+                    </span>
+
+                    <span
+                        class="value"
+                        id="frequencyValue">
+
+                        700 Hz
+
+                    </span>
+
+                </div>
+
+                <input
+                    id="frequency"
+                    type="range"
+                    min="300"
+                    max="1200"
+                    value="700"
+                    oninput="updateSettings()">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        Neo Morse · работает локально
+
     </div>
 
 </div>
@@ -147,152 +646,611 @@
 
 <script>
 
-const morse = {
 
-    "А": ".-",
-    "Б": "-...",
-    "В": ".--",
-    "Г": "--.",
-    "Д": "-..",
-    "Е": ".",
-    "Ё": ".",
-    "Ж": "...-",
-    "З": "--..",
-    "И": "..",
-    "Й": ".---",
-    "К": "-.-",
-    "Л": ".-..",
-    "М": "--",
-    "Н": "-.",
-    "О": "---",
-    "П": ".--.",
-    "Р": ".-.",
-    "С": "...",
-    "Т": "-",
-    "У": "..-",
-    "Ф": "..-.",
-    "Х": "....",
-    "Ц": "-.-.",
-    "Ч": "---.",
-    "Ш": "----",
-    "Щ": "--.-",
-    "Ъ": "--.--",
-    "Ы": "-.--",
-    "Ь": "-..-",
-    "Э": "..-..",
-    "Ю": "..--",
-    "Я": ".-.-",
+/*
+==================================================
+АЗБУКА МОРЗЕ
+==================================================
+*/
 
-    "0": "-----",
-    "1": ".----",
-    "2": "..---",
-    "3": "...--",
-    "4": "....-",
-    "5": ".....",
-    "6": "-....",
-    "7": "--...",
-    "8": "---..",
-    "9": "----."
+
+const alphabets = {
+
+
+    international: {
+
+        "A": ".-",
+        "B": "-...",
+        "C": "-.-.",
+        "D": "-..",
+        "E": ".",
+        "F": "..-.",
+        "G": "--.",
+        "H": "....",
+        "I": "..",
+        "J": ".---",
+        "K": "-.-",
+        "L": ".-..",
+        "M": "--",
+        "N": "-.",
+        "O": "---",
+        "P": ".--.",
+        "Q": "--.-",
+        "R": ".-.",
+        "S": "...",
+        "T": "-",
+        "U": "..-",
+        "V": "...-",
+        "W": ".--",
+        "X": "-..-",
+        "Y": "-.--",
+        "Z": "--..",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    },
+
+
+    ru: {
+
+        "А": ".-",
+        "Б": "-...",
+        "В": ".--",
+        "Г": "--.",
+        "Д": "-..",
+        "Е": ".",
+        "Ё": ".",
+        "Ж": "...-",
+        "З": "--..",
+        "И": "..",
+        "Й": ".---",
+        "К": "-.-",
+        "Л": ".-..",
+        "М": "--",
+        "Н": "-.",
+        "О": "---",
+        "П": ".--.",
+        "Р": ".-.",
+        "С": "...",
+        "Т": "-",
+        "У": "..-",
+        "Ф": "..-.",
+        "Х": "....",
+        "Ц": "-.-.",
+        "Ч": "---.",
+        "Ш": "----",
+        "Щ": "--.-",
+        "Ъ": "--.--",
+        "Ы": "-.--",
+        "Ь": "-..-",
+        "Э": "..-..",
+        "Ю": "..--",
+        "Я": ".-.-",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    },
+
+
+    az: {
+
+        "A": ".-",
+        "B": "-...",
+        "C": "-.-.",
+        "Ç": "-.-.",
+        "D": "-..",
+        "E": ".",
+        "Ə": ".-..-",
+        "F": "..-.",
+        "G": "--.",
+        "Ğ": "--.",
+        "H": "....",
+        "X": "....",
+        "I": "..",
+        "İ": "..",
+        "J": ".---",
+        "K": "-.-",
+        "Q": "--.-",
+        "L": ".-..",
+        "M": "--",
+        "N": "-.",
+        "O": "---",
+        "Ö": "---.",
+        "P": ".--.",
+        "R": ".-.",
+        "S": "...",
+        "Ş": "...-",
+        "T": "-",
+        "U": "..-",
+        "Ü": "..--",
+        "V": "...-",
+        "Y": "-.--",
+        "Z": "--..",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    },
+
+
+    de: {
+
+        "A": ".-",
+        "B": "-...",
+        "C": "-.-.",
+        "D": "-..",
+        "E": ".",
+        "F": "..-.",
+        "G": "--.",
+        "H": "....",
+        "I": "..",
+        "J": ".---",
+        "K": "-.-",
+        "L": ".-..",
+        "M": "--",
+        "N": "-.",
+        "O": "---",
+        "P": ".--.",
+        "Q": "--.-",
+        "R": ".-.",
+        "S": "...",
+        "T": "-",
+        "U": "..-",
+        "V": "...-",
+        "W": ".--",
+        "X": "-..-",
+        "Y": "-.--",
+        "Z": "--..",
+
+        "Ä": ".-.-",
+        "Ö": "---.",
+        "Ü": "..--",
+        "ß": "...--..",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    },
+
+
+    fr: {
+
+        "A": ".-",
+        "B": "-...",
+        "C": "-.-.",
+        "D": "-..",
+        "E": ".",
+        "F": "..-.",
+        "G": "--.",
+        "H": "....",
+        "I": "..",
+        "J": ".---",
+        "K": "-.-",
+        "L": ".-..",
+        "M": "--",
+        "N": "-.",
+        "O": "---",
+        "P": ".--.",
+        "Q": "--.-",
+        "R": ".-.",
+        "S": "...",
+        "T": "-",
+        "U": "..-",
+        "V": "...-",
+        "W": ".--",
+        "X": "-..-",
+        "Y": "-.--",
+        "Z": "--..",
+
+        "É": "..-..",
+        "À": ".--.-",
+        "È": ".-..-",
+        "Ç": "-.-..",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    },
+
+
+    es: {
+
+        "A": ".-",
+        "B": "-...",
+        "C": "-.-.",
+        "D": "-..",
+        "E": ".",
+        "F": "..-.",
+        "G": "--.",
+        "H": "....",
+        "I": "..",
+        "J": ".---",
+        "K": "-.-",
+        "L": ".-..",
+        "M": "--",
+        "N": "-.",
+        "O": "---",
+        "P": ".--.",
+        "Q": "--.-",
+        "R": ".-.",
+        "S": "...",
+        "T": "-",
+        "U": "..-",
+        "V": "...-",
+        "W": ".--",
+        "X": "-..-",
+        "Y": "-.--",
+        "Z": "--..",
+
+        "Ñ": "--.--",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    },
+
+
+    it: {
+
+        "A": ".-",
+        "B": "-...",
+        "C": "-.-.",
+        "D": "-..",
+        "E": ".",
+        "F": "..-.",
+        "G": "--.",
+        "H": "....",
+        "I": "..",
+        "J": ".---",
+        "K": "-.-",
+        "L": ".-..",
+        "M": "--",
+        "N": "-.",
+        "O": "---",
+        "P": ".--.",
+        "Q": "--.-",
+        "R": ".-.",
+        "S": "...",
+        "T": "-",
+        "U": "..-",
+        "V": "...-",
+        "W": ".--",
+        "X": "-..-",
+        "Y": "-.--",
+        "Z": "--..",
+
+        "È": ".-..-",
+        "É": "..-..",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    },
+
+
+    pt: {
+
+        "A": ".-",
+        "B": "-...",
+        "C": "-.-.",
+        "D": "-..",
+        "E": ".",
+        "F": "..-.",
+        "G": "--.",
+        "H": "....",
+        "I": "..",
+        "J": ".---",
+        "K": "-.-",
+        "L": ".-..",
+        "M": "--",
+        "N": "-.",
+        "O": "---",
+        "P": ".--.",
+        "Q": "--.-",
+        "R": ".-.",
+        "S": "...",
+        "T": "-",
+        "U": "..-",
+        "V": "...-",
+        "W": ".--",
+        "X": "-..-",
+        "Y": "-.--",
+        "Z": "--..",
+
+        "Á": ".--.-",
+        "Ã": ".--.-",
+        "Ç": "-.-..",
+        "É": "..-..",
+        "Ó": "---.",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    },
+
+
+    tr: {
+
+        "A": ".-",
+        "B": "-...",
+        "C": "-.-.",
+        "Ç": "-.-.",
+        "D": "-..",
+        "E": ".",
+        "F": "..-.",
+        "G": "--.",
+        "Ğ": "--.",
+        "H": "....",
+        "I": "..",
+        "İ": "..",
+        "J": ".---",
+        "K": "-.-",
+        "L": ".-..",
+        "M": "--",
+        "N": "-.",
+        "O": "---",
+        "Ö": "---.",
+        "P": ".--.",
+        "R": ".-.",
+        "S": "...",
+        "Ş": "...-",
+        "T": "-",
+        "U": "..-",
+        "Ü": "..--",
+        "V": "...-",
+        "Y": "-.--",
+        "Z": "--..",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    },
+
+
+    uk: {
+
+        "А": ".-",
+        "Б": "-...",
+        "В": ".--",
+        "Г": "--.",
+        "Ґ": "--.",
+        "Д": "-..",
+        "Е": ".",
+        "Є": "..-..",
+        "Ж": "...-",
+        "З": "--..",
+        "И": "..",
+        "І": "..",
+        "Ї": ".---.",
+        "Й": ".---",
+        "К": "-.-",
+        "Л": ".-..",
+        "М": "--",
+        "Н": "-.",
+        "О": "---",
+        "П": ".--.",
+        "Р": ".-.",
+        "С": "...",
+        "Т": "-",
+        "У": "..-",
+        "Ф": "..-.",
+        "Х": "....",
+        "Ц": "-.-.",
+        "Ч": "---.",
+        "Ш": "----",
+        "Щ": "--.-",
+        "Ь": "-..-",
+        "Ю": "..--",
+        "Я": ".-.-",
+
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----."
+
+    }
 
 };
 
 
-function translateToMorse() {
+/*
+==================================================
+СОЗДАНИЕ ОБРАТНЫХ ТАБЛИЦ
+==================================================
+*/
 
-    const text =
-        document.getElementById("input").value
-        .toUpperCase();
+let reverseAlphabets = {};
 
-    let result = "";
+for (const language in alphabets) {
 
-    for (const character of text) {
+    reverseAlphabets[language] = {};
 
-        if (character === " ") {
+    for (const character in alphabets[language]) {
 
-            result += " / ";
+        const code =
+            alphabets[language][character];
 
-        } else if (morse[character]) {
+        reverseAlphabets[language][code] =
+            character;
 
-            result += morse[character] + " ";
-
-        } else {
-
-            result += character + " ";
-
-        }
     }
 
-    document.getElementById("output").textContent =
-        result.trim();
 }
 
 
-function playMorse() {
+/*
+==================================================
+ПЕРЕМЕННЫЕ
+==================================================
+*/
 
-    const text =
-        document.getElementById("output").textContent;
+let currentMode = "text";
 
-    if (!text || text === "Здесь появится азбука Морзе") {
-        return;
+let audioContext = null;
+
+let oscillator = null;
+
+let gainNode = null;
+
+let playing = false;
+
+let playbackTimer = null;
+
+
+/*
+==================================================
+РЕЖИМ
+==================================================
+*/
+
+function setMode(mode) {
+
+    currentMode = mode;
+
+    document
+        .getElementById("textMode")
+        .classList
+        .toggle(
+            "active",
+            mode === "text"
+        );
+
+    document
+        .getElementById("morseMode")
+        .classList
+        .toggle(
+            "active",
+            mode === "morse"
+        );
+
+
+    if (mode === "text") {
+
+        document
+            .getElementById("inputLabel")
+            .textContent =
+            "ВАШ ТЕКСТ";
+
+        document
+            .getElementById("outputLabel")
+            .textContent =
+            "АЗБУКА МОРЗЕ";
+
+        document
+            .getElementById("input")
+            .placeholder =
+            "Напишите сообщение...";
+
+    } else {
+
+        document
+            .getElementById("inputLabel")
+            .textContent =
+            "АЗБУКА МОРЗЕ";
+
+        document
+            .getElementById("outputLabel")
+            .textContent =
+            "ТЕКСТ";
+
+        document
+            .getElementById("input")
+            .placeholder =
+            "Например: .... . .-.. .-.. ---";
+
     }
 
-    let index = 0;
 
-    function nextSignal() {
+    translateText();
 
-        if (index >= text.length) {
-            return;
-        }
-
-        const symbol = text[index];
-
-        index++;
-
-        if (symbol === ".") {
-
-            beep(150);
-
-        } else if (symbol === "-") {
-
-            beep(450);
-
-        } else {
-
-            setTimeout(nextSignal, 150);
-            return;
-        }
-
-        setTimeout(nextSignal, 200);
-    }
-
-    nextSignal();
 }
 
 
-function beep(duration) {
+/*
+==================================================
+ПЕРЕВОД
+==================================================
+*/
 
-    const audio =
-        new AudioContext();
-
-    const oscillator =
-        audio.createOscillator();
-
-    const gain =
-        audio.createGain();
-
-    oscillator.frequency.value = 700;
-
-    oscillator.connect(gain);
-    gain.connect(audio.destination);
-
-    oscillator.start();
-
-    oscillator.stop(
-        audio.currentTime + duration / 1000
-    );
-}
-
-</script>
-
-</body>
-</html>
+function translateText() {
+    
